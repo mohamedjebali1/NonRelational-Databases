@@ -1,0 +1,19 @@
+create or replace PROCEDURE PS_Customer_Prodcuts
+    (p_customer_id   NUMBER)
+AS
+BEGIN
+
+   FOR aRow IN (SELECT customer_ID
+                WHERE customer_ID = p_customer_id
+                      (SELECT COUNT(*)
+                             FROM orders
+                             WHERE customer_ID = p_customer_id)
+  LOOP
+    IF ( customer_ID = p_customer_id ) THEN 
+      dbms_output.put_line('Product_Name: ' || aRow.Product_Name); 
+    ELSE 
+      dbms_output.put_line('No_Data_Found exception raised'); 
+    END IF;
+  END LOOP;
+END PS_Customer_Prodcuts;
+/

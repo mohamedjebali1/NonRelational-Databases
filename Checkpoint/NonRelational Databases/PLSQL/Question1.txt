@@ -1,0 +1,18 @@
+create or replace PROCEDURE get_customer_info_by_customer_id 
+    (p_customer_id   NUMBER)
+AS
+BEGIN
+
+   FOR aRow IN (SELECT customer_ID, customer_Name, customer_Tel
+                FROM customer
+                WHERE customer_ID = p_customer_id
+                      (SELECT COUNT(*)
+                             FROM customer
+                             WHERE customer_ID = p_customer_id)
+   LOOP
+     DBMS_OUTPUT.PUT_LINE('customer ID: ' || aRow.customer_ID);
+     DBMS_OUTPUT.PUT_LINE('customer_NAME: ' || aRow.customer_Name);
+     DBMS_OUTPUT.PUT_LINE('customer_Tel: ' || aRow.customer_Tel);
+   END LOOP;
+END get_customer_info_by_customer_id;
+/

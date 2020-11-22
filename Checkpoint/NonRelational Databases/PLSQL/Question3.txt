@@ -1,0 +1,18 @@
+CREATE OR REPLACE FUNCTION MYSCHEMA.FN_Customer_Orders( 
+  orders in varchar2,
+  Quantity in varchar2,
+  customer_id in varchar2)
+RETURN NUMBER
+BEGIN
+  declare 
+  querystr varchar2(2000) ;
+  result NUMBER;
+  begin
+    querystr :='
+    select  listagg('|| COUNT(Quantity) || ', '','') within group (order by ' ||COUNT(Quantity) ||')
+    from ' || orders || ' where  1 = 1 ' || customer_id;
+    EXECUTE IMMEDIATE querystr INTO result;
+    return result;
+  end;
+END ;
+/

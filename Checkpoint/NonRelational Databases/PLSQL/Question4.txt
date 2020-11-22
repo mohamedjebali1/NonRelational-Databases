@@ -1,0 +1,19 @@
+CREATE OR REPLACE TRIGGER TRIG_INS_ORDERS 
+BEFORE INSERT
+ON orders
+FOR
+EACH ROW
+DECLARE
+OrderDate_date%TYPE;
+BEGIN
+SELECT OrderDate
+INTO OrderDate
+FROM orders
+WHERE OrderDate = :NEW.OrderDate;
+IF (:NEW.OrderDate >= SYSDATE) 
+THEN
+dbms_output.put_line('Valid Order Date');
+ELSE
+RAISE_APPLICATION_ERROR(-20000,'Order Date must be greater than or equal to today's date');
+END IF;
+END;
